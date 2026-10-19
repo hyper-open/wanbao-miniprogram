@@ -38,7 +38,7 @@
 ### 1. 前置要求
 
 1. [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)（已登录）
-2. 已部署的 [wanbao-backend](../wanbao-backend)（本地或公网均可，部署指南见后端仓库）
+2. 已部署的 [wanbao-backend](https://github.com/hyper-open/wanbao-backend)（本地或公网均可，部署指南见后端仓库）
 3. 一个微信小程序 AppID（个人主体即可，无需认证也可跑通开发调试）
 
 ### 2. 开发调试
