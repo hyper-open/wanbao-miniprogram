@@ -40,6 +40,13 @@
 
 项目按「最小必要」申请隐私权限，清单见 [docs/隐私权限申请清单.md](docs/隐私权限申请清单.md)。二次开发若启用新能力（如录音语音输入），记得同步在小程序后台更新隐私指引并在代码中调用对应 API。
 
+## 联系作者
+
+- 技术问题 / Bug 反馈：请提 [Issue](../../issues)，方便沉淀给后来人
+- 交流 / 合作：扫码添加微信（备注 GitHub）
+
+<p align="center"><img src="docs/images/wechat-qrcode.png" width="240" alt="作者微信"></p>
+
 ## License
 
 [MIT](LICENSE)
