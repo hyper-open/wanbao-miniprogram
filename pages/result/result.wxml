@@ -1,0 +1,42 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <!-- 执行状态 -->
+  <view class="card status-card">
+    <view class="status-row">
+      <view class="status-badge {{status}}">{{statusText}}</view>
+      <view wx:if="{{quotaRemain !== null}}" class="muted">剩余 {{quotaRemain}} 积分</view>
+    </view>
+    <view wx:if="{{status === 'pending'}}" class="muted mt-16">正在生成中，请稍候…</view>
+  </view>
+
+  <!-- 结果 -->
+  <view class="card" wx:if="{{status === 'success'}}">
+    <view class="title">结果</view>
+    <md content="{{resultText}}"/>
+    <view wx:if="{{resultText}}" class="btn" bindtap="copy">复制结果</view>
+    <view wx:if="{{downloadUrl}}" class="btn ghost" bindtap="openDoc">打开生成的文档</view>
+  </view>
+
+  <!-- 失败 -->
+  <view class="card" wx:if="{{status === 'failed'}}">
+    <view class="title danger-text">执行失败</view>
+    <view class="muted">{{err || "生成过程中出现问题"}}</view>
+    <view class="muted mt-8">已自动退还积分，请重试或联系管理员。</view>
+  </view>
+
+  <!-- 其他状态（已过期/已结束/已取消）：不留白 -->
+  <view class="card" wx:if="{{status !== 'success' && status !== 'failed' && status !== 'pending'}}">
+    <view class="title">{{statusText}}</view>
+    <view class="muted">{{err || "该记录没有产出内容"}}</view>
+  </view>
+
+  <!-- 辅助操作：反馈/举报（跳到独立反馈页，自动带上本次产出） -->
+  <view class="fb-btn" bindtap="goFeedback">🙋 反馈 / 举报</view>
+
+  <view class="foot muted">
+    内容由 AI 生成，仅供参考
+    <text class="link" bindtap="goAgreement">用户协议与隐私</text>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "反馈与建议",
+  "usingComponents": {
+    "login-panel": "/components/login-panel/login-panel"
+  }
+}

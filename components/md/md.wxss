@@ -1,0 +1,5 @@
+.md-rich {
+  display: block;
+  width: 100%;
+  word-break: break-word;
+}

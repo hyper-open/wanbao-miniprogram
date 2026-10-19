@@ -1,0 +1,39 @@
+.status-card { padding: 28rpx 32rpx; }
+.status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.status-badge {
+  font-size: 28rpx;
+  font-weight: 600;
+  padding: 8rpx 24rpx;
+  border-radius: 999rpx;
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+.status-badge.success { background: #d1fae5; color: #047857; }
+.status-badge.failed { background: #ffe4e6; color: var(--danger); }
+.status-badge.pending { background: #fef3c7; color: #b45309; }
+
+.danger-text { color: var(--danger); }
+
+.fb-btn {
+  display: block;
+  margin: 8rpx 0 4rpx;
+  padding: 22rpx 0;
+  text-align: center;
+  border-radius: 999rpx;
+  border: 2rpx solid var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.fb-btn:active { opacity: 0.75; }
+.foot { text-align: center; padding: 24rpx 0 40rpx; }
+.link {
+  color: var(--primary-ink);
+  margin-left: 12rpx;
+  text-decoration: underline;
+}

@@ -1,0 +1,30 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <view wx:if="{{!loading && list.length === 0}}" class="empty">
+    <view class="empty-icon"></view>
+    <view class="muted">暂无充值记录</view>
+  </view>
+
+  <view wx:for="{{list}}" wx:key="order_id" class="card order">
+    <view class="order-head">
+      <view class="order-name">
+        {{item.package_name}}<text wx:if="{{item.quota}}" class="muted"> · {{item.quota}} 积分</text>
+        <text wx:if="{{item.platformLabel}}" class="pf-tag">{{item.platformLabel}}</text>
+      </view>
+      <view class="order-amount">¥{{item.amountText}}</view>
+    </view>
+
+    <view class="order-meta">
+      <text class="status {{item.statusClass}}">{{item.statusText}}</text>
+      <text class="muted">{{item.timeText}}</text>
+    </view>
+
+    <view wx:if="{{item.discountLabel}}" class="muted mt-8">
+      原价 ¥{{item.originText}} · {{item.discountLabel}} 折{{item.campaign_name ? " · " + item.campaign_name : ""}}
+    </view>
+
+    <view class="muted mt-8 order-no">订单号 {{item.order_id}}</view>
+  </view>
+</view>

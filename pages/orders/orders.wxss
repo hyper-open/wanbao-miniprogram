@@ -1,0 +1,56 @@
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.order-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+.order-amount {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--primary-deep);
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.status {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+.status::before {
+  content: "";
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #d1d5db;
+  margin-right: 8rpx;
+}
+.status.success { color: var(--success); }
+.status.success::before { background: var(--success); }
+.status.pending { color: #f59e0b; }
+.status.pending::before { background: #f59e0b; }
+.order-no {
+  word-break: break-all;
+}
+
+/* 充值平台标签（iOS / 安卓，两端价格不同） */
+.pf-tag {
+  margin-left: 12rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 999rpx;
+  background: #f6f5fd;
+  color: var(--text-muted);
+  font-size: 20rpx;
+  font-weight: 400;
+}

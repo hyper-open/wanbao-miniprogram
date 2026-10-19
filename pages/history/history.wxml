@@ -1,0 +1,78 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <!-- 筛选：关键字 + 时间范围 -->
+  <view class="card filters">
+    <view class="f-row">
+      <input
+        class="input f-q"
+        value="{{q}}"
+        placeholder="搜索工具名 / 内容关键字"
+        confirm-type="search"
+        bindinput="onInput"
+        bindconfirm="onSearch"
+      />
+      <view class="btn f-btn" bindtap="onSearch">查询</view>
+    </view>
+    <view class="f-row dates">
+      <picker mode="date" value="{{dateFrom}}" bindchange="onFrom">
+        <view class="pick {{dateFrom ? '' : 'ph'}}">{{dateFrom || "开始日期"}}</view>
+      </picker>
+      <text class="muted">至</text>
+      <picker mode="date" value="{{dateTo}}" bindchange="onTo">
+        <view class="pick {{dateTo ? '' : 'ph'}}">{{dateTo || "结束日期"}}</view>
+      </picker>
+      <text class="reset" bindtap="onReset">重置</text>
+    </view>
+    <view class="f-row arch">
+      <text class="muted">归档</text>
+      <view
+        wx:for="{{archOptions}}"
+        wx:key="value"
+        class="chip {{archivedFilter === item.value ? 'on' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="setArchived"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{inited && items.length === 0}}" class="empty">
+    <view class="empty-icon"></view>
+    <view class="muted">暂无记录</view>
+  </view>
+
+  <view
+    wx:for="{{items}}"
+    wx:key="key"
+    class="card tap rec"
+    data-key="{{item.key}}"
+    bindtap="open"
+  >
+    <view class="rec-head">
+      <text class="tag">{{item.tool_name}}</text>
+      <text
+        wx:if="{{item.resumable}}"
+        class="resume"
+        data-sid="{{item.session_id}}"
+        catchtap="continueChat"
+      >继续对话 ›</text>
+    </view>
+    <view wx:if="{{item.brief}}" class="rec-text">{{item.brief}}</view>
+    <view class="rec-foot">
+      <text class="muted">{{item.timeText}}</text>
+      <view class="rec-right">
+        <text wx:if="{{item.quotaText}}" class="quota">{{item.quotaText}}</text>
+        <text
+          class="arch-btn {{item.archived ? 'on' : ''}}"
+          data-id="{{item.invocation_id}}"
+          data-arch="{{item.archived}}"
+          catchtap="toggleArchive"
+        >{{item.archived ? "取消归档" : "归档"}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="muted load-more">加载中…</view>
+  <view wx:elif="{{inited && items.length && !hasMore}}" class="muted load-more">没有更多了 · 共 {{total}} 条</view>
+</view>

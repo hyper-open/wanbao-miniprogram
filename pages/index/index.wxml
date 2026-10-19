@@ -1,0 +1,41 @@
+<view class="container">
+  <!-- 顶部 Hero -->
+  <view class="hero blob-host">
+    <view class="blob-inner">
+      <view class="hero-title">万宝AI助手</view>
+      <view class="hero-sub">一个入口，N 个 AI 工具</view>
+      <view class="hero-quota" wx:if="{{quotaRemain !== null}}">剩余 {{quotaRemain}} 积分</view>
+    </view>
+  </view>
+
+  <!-- 唯一的任务入口：去「对话」页说需求（全过程都在那一页完成） -->
+  <view class="card">
+    <view class="title">聊天式使用，全程不跳页</view>
+    <view class="muted">在「对话」页直接说需求即可，助手会自动选工具、分析、确认后产出；同一个对话里还能接着做下一个任务。</view>
+    <view class="btn mt-16" bindtap="goChat">去「对话」页开始</view>
+  </view>
+
+  <!-- 热门工具（浏览） -->
+  <view class="section-head" wx:if="{{hot.length}}">
+    <view class="section-title">🔥 热门工具</view>
+    <view class="section-more" bindtap="goTools">全部 ›</view>
+  </view>
+  <view class="hot-grid" wx:if="{{hot.length}}">
+    <view
+      class="hot-card tappable"
+      wx:for="{{hot}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="openTool"
+    >
+      <view class="hot-emoji c-{{item.category}}">{{item.emoji}}</view>
+      <view class="hot-name">{{item.name}}</view>
+      <view class="hot-desc">{{item.description}}</view>
+      <view class="hot-price">{{item.price_quota}} 积分/次</view>
+    </view>
+  </view>
+
+  <view class="card" wx:else>
+    <view class="muted">工具加载中…</view>
+  </view>
+</view>

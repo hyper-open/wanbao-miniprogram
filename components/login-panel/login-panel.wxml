@@ -1,0 +1,15 @@
+<view wx:if="{{show}}" class="lp-mask" bindtap="onMaskTap" catchtouchmove="noop">
+  <view class="lp-card" catchtap="noop">
+    <view class="lp-title">登录后使用</view>
+    <view class="lp-desc">用微信身份登录，用于保存使用记录、剩余次数与邀请奖励。</view>
+
+    <button
+      class="lp-btn {{logging ? 'disabled' : ''}}"
+      disabled="{{logging}}"
+      bindtap="onLogin"
+    >{{logging ? "登录中…" : "微信一键登录"}}</button>
+
+    <view class="lp-tip">微信登录不弹授权框 · 头像昵称可在「我的」页设置</view>
+    <view wx:if="{{closable}}" class="lp-close" bindtap="onClose">暂不登录</view>
+  </view>
+</view>

@@ -1,0 +1,65 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <block wx:if="{{!showLogin}}">
+    <!-- 提交 -->
+    <view class="card">
+      <view class="title">提交反馈 / 举报</view>
+      <view class="muted">遇到问题、内容有误，或想提个建议？告诉我们，我们会跟进处理。</view>
+
+      <view class="type-row">
+        <view
+          wx:for="{{types}}"
+          wx:key="value"
+          class="chip {{type === item.value ? 'on' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="setType"
+        >{{item.label}}</view>
+      </view>
+
+      <textarea
+        class="input fb-input"
+        maxlength="1000"
+        value="{{content}}"
+        bindinput="onInput"
+        placeholder="请描述具体问题或建议（1000 字以内）"
+        placeholder-class="ph"
+      />
+      <view class="fb-row">
+        <text class="muted">{{content.length}}/1000</text>
+        <view class="fb-submit {{submitting || !content ? 'disabled' : ''}}" bindtap="submit">
+          {{submitting ? "提交中…" : "提交"}}
+        </view>
+      </view>
+      <view wx:if="{{invocationId}}" class="muted fb-tip">将关联本次产出（#{{invocationId}}）一起提交</view>
+    </view>
+
+    <!-- 我的记录 -->
+    <view class="sec-title">我的反馈记录</view>
+
+    <view wx:if="{{inited && items.length === 0}}" class="empty">
+      <view class="empty-icon"></view>
+      <view class="muted">还没有提交过反馈</view>
+    </view>
+
+    <view wx:for="{{items}}" wx:key="id" class="card rec">
+      <view class="rec-head">
+        <text class="tag">{{item.typeText}}</text>
+        <text class="status {{item.statusClass}}">{{item.statusText}}</text>
+      </view>
+      <view class="rec-text">{{item.content}}</view>
+      <view wx:if="{{item.reply}}" class="reply">
+        <view class="reply-head">官方回复{{item.replyTime ? " · " + item.replyTime : ""}}</view>
+        <view class="reply-text">{{item.reply}}</view>
+      </view>
+      <view class="rec-foot">
+        <text class="muted">{{item.timeText}}</text>
+        <text wx:if="{{item.invocation_id}}" class="inv-link" data-inv="{{item.invocation_id}}" bindtap="openInv">关联产出：{{item.invocation_tool || ("#" + item.invocation_id)}} ›</text>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="muted load-more">加载中…</view>
+    <view wx:elif="{{inited && items.length && !hasMore}}" class="muted load-more">没有更多了 · 共 {{total}} 条</view>
+  </block>
+</view>

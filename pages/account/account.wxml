@@ -1,0 +1,120 @@
+<view class="container">
+  <!-- 未登录：只展示微信一键登录卡片（整页数据依赖登录，不用浮层） -->
+  <login-panel class="lp-host" wx:if="{{!loggedIn}}" show="{{!loggedIn}}" closable="{{false}}" bind:done="onLoginDone" />
+
+  <block wx:if="{{loggedIn}}">
+  <!-- 个人资料：头像用官方 chooseAvatar，昵称用 type=nickname（不再用已废弃的 getUserProfile） -->
+  <view class="profile-card">
+    <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image wx:if="{{avatarUrl}}" src="{{avatarUrl}}" class="avatar-img" mode="aspectFill" />
+      <view wx:else class="avatar-ph"></view>
+    </button>
+    <view class="profile-info">
+      <input
+        class="nick-input"
+        type="nickname"
+        value="{{nickname}}"
+        placeholder="点击可选用微信昵称"
+        placeholder-class="nick-ph"
+        bindblur="onNickname"
+        bindchange="onNickname"
+      />
+      <view class="profile-tip">点头像可更换 · 点昵称可选用微信昵称</view>
+    </view>
+  </view>
+
+  <!--
+    手机号绑定入口暂时隐藏：「手机号快速验证组件」仅对非个人主体、且已微信认证的小程序开放，
+    当前主体不可用（真机报 getPhoneNumber:fail no permission）。
+    待主体迁移/微信认证通过后，恢复「手机号」卡片即可（onGetPhone 与 phone-* 样式已保留）。
+  -->
+
+  <!-- 可用积分卡：渐变头部（不再展示余额，余额是内部记账概念） -->
+  <view class="balance-card blob-host">
+    <view class="blob-inner">
+      <view class="balance-label">✨ 可用积分</view>
+      <view class="balance-num">{{quotaRemain}}</view>
+      <view class="balance-sub">付费 {{paidRemain}} · 免费 {{freeRemain}} 积分</view>
+      <view wx:if="{{freeRemain > 0 && freeExpireText}}" class="balance-sub">免费积分 {{freeExpireText}} 到期，逾期作废</view>
+      <view class="balance-sub">累计获得 {{quotaTotal}} 积分 · 已用 {{quotaUsed}} 积分</view>
+      <view wx:if="{{quotaExpired > 0}}" class="balance-sub">已过期作废 {{quotaExpired}} 积分</view>
+    </view>
+  </view>
+
+  <!-- 每日签到（未配置签到活动时不展示） -->
+  <view wx:if="{{checkinEnabled}}" class="card free-card">
+    <view class="free-row">
+      <view class="free-info">
+        <view class="free-title">每日签到</view>
+        <view class="muted">分析、生成按工具分别消耗积分</view>
+      </view>
+      <view class="checkin-btn {{checkedInToday ? 'done' : ''}}" bindtap="doCheckin">
+        {{checkedInToday ? "今日已签到" : "签到领 " + checkinReward + " 积分"}}
+      </view>
+    </view>
+    <view class="muted checkin-tip">
+      签到送 {{checkinReward}} 积分{{checkinValidDays > 0 ? "，" + checkinValidDays + " 天有效" : ""}}
+    </view>
+  </view>
+
+  <!-- 充值记录入口 -->
+  <view class="link-row" bindtap="goOrders">
+    <text class="link-text">充值记录</text>
+    <view class="arrow"></view>
+  </view>
+
+  <!-- 积分明细入口 -->
+  <view class="link-row" bindtap="goPoints">
+    <text class="link-text">积分明细</text>
+    <view class="arrow"></view>
+  </view>
+
+  <!-- 邀请有奖入口 -->
+  <view class="link-row" bindtap="goInvite">
+    <text class="link-text">邀请有奖</text>
+    <view class="arrow"></view>
+  </view>
+
+  <!-- 反馈与建议入口 -->
+  <view class="link-row" bindtap="goFeedback">
+    <text class="link-text">反馈与建议</text>
+    <view class="arrow"></view>
+  </view>
+
+  <!-- 停售预约 -->
+  <view class="card" wx:if="{{soldOut}}">
+    <view class="title warn-title">本月额度将满</view>
+    <view class="muted">微信月度收款限额已触顶，充值暂时停售；您的剩余积分可正常使用。</view>
+    <view wx:if="{{!restockJoined}}" class="btn" bindtap="onJoinRestock">预约下月开售提醒</view>
+    <view wx:elif="{{restockNotified}}" class="muted ok-tip">✓ 本月已恢复售卖</view>
+    <view wx:else class="muted ok-tip">✓ 已预约，下月开售将提醒您</view>
+  </view>
+
+  <!-- 充值积分包 -->
+  <view class="card">
+    <view class="title">
+      充值积分包
+      <text wx:if="{{paymentMock}}" class="mock-badge">测试支付</text>
+    </view>
+    <view wx:for="{{packages}}" wx:key="id" class="pkg">
+      <view class="pkg-info">
+        <view class="pkg-name">
+          {{item.name}}
+          <text wx:if="{{item.discountLabel}}" class="pkg-badge">{{item.discountLabel}} 折</text>
+        </view>
+        <view class="pkg-desc">
+          <text class="pkg-price">¥{{item.price}}</text>
+          <text wx:if="{{item.discountLabel}}" class="pkg-origin">¥{{item.origin_price}}</text>
+          <text class="pkg-quota">{{item.quota}} 积分</text>
+        </view>
+        <view wx:if="{{item.bonus_quota > 0}}" class="pkg-campaign">🎁 {{item.campaign_name || "充值优惠"}}：充 {{item.quota}} 积分送 {{item.bonus_quota}} 积分</view>
+        <view wx:elif="{{item.campaign_name}}" class="pkg-campaign">🎉 {{item.campaign_name}}</view>
+      </view>
+      <view class="pkg-btn" data-pkg="{{item}}" bindtap="onRecharge">充值</view>
+    </view>
+    <view wx:if="{{packages.length === 0}}" class="muted">暂无可售档位</view>
+  </view>
+
+  <view class="foot muted" bindtap="goAgreement">用户协议 · 隐私政策 · 备案公示</view>
+  </block>
+</view>

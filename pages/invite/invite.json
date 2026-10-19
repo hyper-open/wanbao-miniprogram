@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "邀请有奖",
+  "usingComponents": {
+    "login-panel": "/components/login-panel/login-panel"
+  }
+}

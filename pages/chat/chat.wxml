@@ -1,0 +1,152 @@
+<view class="container">
+
+  <!-- AI 生成内容提示条：合规要求全程固定展示（深度合成类目审核必查项） -->
+  <view class="ai-notice">内容由 AI 生成，仅供参考，不构成专业建议</view>
+
+  <!-- 新会话入口：会话进行中固定在右上角，随时可开新对话 -->
+  <view wx:if="{{timeline.length}}" class="new-session-fab" bindtap="newSession">＋ 新会话</view>
+
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <!-- 空态引导 -->
+  <view wx:if="{{phase === 'compose' && !timeline.length}}" class="card">
+    <view class="title">想做什么？直接说</view>
+    <view class="muted">助手会自动选工具：分析与产出分别按工具定价扣积分。同一个对话里可以连续做多个任务（可换工具、可带文件），全程不跳页。</view>
+    <view class="muted" style="margin-top:10rpx;font-size:20rpx;">版本 v{{version}}</view>
+  </view>
+
+  <!-- 失败 / 已结束 -->
+  <view wx:if="{{phase === 'failed' || phase === 'closed'}}" class="card">
+    <view class="title {{phase === 'failed' ? 'danger-text' : ''}}">
+      {{phase === 'failed' ? '这次任务失败了' : '对话已结束'}}
+    </view>
+    <view class="muted">
+      {{phase === 'failed' ? (err || "生成过程中出现问题") : "在下面继续说需求，即可开启新的对话"}}
+    </view>
+  </view>
+
+  <!-- 消息流：按子任务分组；分析/追问/确认扣费/结果都是流里的卡片 -->
+  <block wx:for="{{timeline}}" wx:key="key" wx:for-item="m">
+    <view wx:if="{{m.isTurnHead}}" class="turn-head">
+      <text class="turn-no">{{m.seqText}}</text>
+      <text class="turn-name">{{m.toolName}}</text>
+      <text wx:if="{{m.done}}" class="turn-done">已完成</text>
+    </view>
+
+    <view wx:elif="{{m.isAnalysis}}" class="card">
+      <view class="title">{{m.analysisTitle}}</view>
+      <view class="muted">{{m.analysis.summary}}</view>
+
+      <block wx:if="{{m.analysis.missing.length}}">
+        <view class="sec">缺失信息（{{m.analysis.missing.length}}）</view>
+        <view wx:for="{{m.analysis.missing}}" wx:key="key" class="item">
+          <view class="item-head">
+            <text class="tag warn">{{item.priText}}</text>
+            <text class="item-label">{{item.label}}</text>
+          </view>
+          <view class="muted">{{item.detail}}</view>
+        </view>
+      </block>
+
+      <block wx:if="{{m.analysis.suspicious.length}}">
+        <view class="sec">建议核对（{{m.analysis.suspicious.length}}）</view>
+        <view wx:for="{{m.analysis.suspicious}}" wx:key="key" class="item">
+          <view class="item-head">
+            <text class="tag">{{item.priText}}</text>
+            <text class="item-label">{{item.label}}</text>
+          </view>
+          <view class="muted">{{item.detail}}</view>
+        </view>
+      </block>
+      <view class="ai-foot">内容由 AI 生成，仅供参考</view>
+    </view>
+
+    <!-- 产出正文直接沉在会话里 -->
+    <view wx:elif="{{m.type === 'result'}}" class="card result-card">
+      <view class="title">结果</view>
+      <md class="result-text" content="{{m.content}}"/>
+      <view class="ai-foot">内容由 AI 生成，仅供参考</view>
+    </view>
+
+    <!-- 确认扣费（就地确认，不切换任何窗口） -->
+    <view wx:elif="{{m.isConfirm}}" class="card confirm-card">
+      <view class="title">确认生成</view>
+      <view class="muted">信息已足够，生成结果将消耗 <b>{{m.price}}</b> 积分。确认后开始生成，结果会出现在下方。</view>
+      <view class="confirm-actions">
+        <view class="btn" bindtap="doConfirm">确认生成（{{m.price}} 积分）</view>
+        <view class="btn ghost" bindtap="cancelTurn">取消</view>
+      </view>
+    </view>
+
+    <view wx:else class="msg {{m.role === 'user' ? 'me' : 'ai'}}">
+      <view class="bubble-wrap">
+        <view class="bubble">{{m.content}}</view>
+        <view wx:if="{{m.role !== 'user'}}" class="ai-mark">AI 生成内容</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 乐观消息：刚发出、服务端还没落库的内容先上屏 -->
+  <view wx:if="{{pendingMsg}}" class="msg me"><view class="bubble">{{pendingMsg}}</view></view>
+
+  <!-- 流式输出：AI 产出的增量文本（SSE） -->
+  <view wx:if="{{streamText}}" class="msg ai">
+    <view class="bubble-wrap">
+      <view class="bubble streaming">{{streamText}}</view>
+      <view class="ai-mark">AI 生成内容</view>
+    </view>
+  </view>
+
+  <view wx:if="{{phase === 'processing' && !streamText}}" class="muted thinking">AI 正在处理…</view>
+
+  <!-- 优化前后对比（产出后展示） -->
+  <view wx:if="{{diff}}" class="card diff-card">
+    <view class="title">优化对比</view>
+    <view wx:if="{{diff.summary}}" class="muted diff-summary">{{diff.summary}}</view>
+    <view wx:for="{{diff.changes}}" wx:key="idx" class="change">
+      <view class="change-sec">{{item.section}}</view>
+      <view class="pair">
+        <view class="side before">
+          <view class="side-tag">原文</view>
+          <view class="side-text">{{item.before || "（新增）"}}</view>
+        </view>
+        <view class="side after">
+          <view class="side-tag">优化后</view>
+          <view class="side-text">{{item.after}}</view>
+        </view>
+      </view>
+      <view wx:if="{{item.reason}}" class="change-reason">💡 {{item.reason}}</view>
+    </view>
+  </view>
+
+  <!-- 需要下载文档时的入口（空闲态展示） -->
+  <view wx:if="{{phase === 'idle' && invocationId}}" class="card">
+    <view class="btn ghost" bindtap="openResult">查看结果 / 下载文档</view>
+  </view>
+</view>
+
+<!-- 底部常驻输入框：任何阶段都在，像桌面 Agent 一样连续对话 -->
+<view class="action-bar">
+  <view wx:if="{{attachName}}" class="bar-attach">
+    <text class="file-ico">📄</text>
+    <text class="file-name">{{attachName}}</text>
+    <text class="file-redo" bindtap="clearAttach">移除</text>
+  </view>
+  <view class="bar-row">
+    <view class="bar-plus" bindtap="chooseAttach">＋</view>
+    <input
+      class="input bar-input"
+      value="{{input}}"
+      placeholder="{{placeholder}}"
+      confirm-type="send"
+      bindinput="onInput"
+      bindconfirm="onSend"
+    />
+    <view class="btn bar-btn {{sending ? 'disabled' : ''}}" bindtap="onSend">发送</view>
+  </view>
+  <view class="bar-links">
+    <text wx:if="{{phase === 'awaiting_answer'}}" class="link" bindtap="skip">跳过追问，直接生成</text>
+    <text wx:if="{{quotaRemain !== null}}" class="muted">剩余 {{quotaRemain}} 积分</text>
+  </view>
+</view>

@@ -1,0 +1,100 @@
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: #fff;
+  border-top: 1rpx solid #eceef1;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 999;
+}
+.tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14rpx 0 10rpx;
+  color: var(--text-muted, #94a3b8);
+  transition: transform 0.16s ease;
+}
+.tab:active { transform: scale(0.92); }
+.tab.on { color: #7c3aed; }
+/* 选中态顶部渐变指示条 */
+.tab.on::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 44rpx;
+  height: 6rpx;
+  margin-left: -22rpx;
+  border-radius: 0 0 6rpx 6rpx;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+.icon { width: 44rpx; height: 44rpx; position: relative; transition: transform 0.16s ease; }
+.tab.on .icon { transform: translateY(-2rpx); }
+.txt { font-size: 20rpx; line-height: 30rpx; margin-top: 4rpx; }
+.tab.on .txt { font-weight: 600; }
+
+/* CSS 图标：线性风格，选中态跟随文字颜色 */
+.icon::before,
+.icon::after { content: ""; position: absolute; box-sizing: border-box; }
+
+/* 首页：三角屋顶 + 方身（纯 border 绘制，避免 clip-path 兼容问题） */
+.icon-home::before {
+  left: 2rpx; top: 6rpx;
+  width: 0; height: 0;
+  border-left: 20rpx solid transparent;
+  border-right: 20rpx solid transparent;
+  border-bottom: 16rpx solid currentColor;
+}
+.icon-home::after {
+  left: 9rpx; top: 22rpx;
+  width: 26rpx; height: 18rpx;
+  border: 4rpx solid currentColor;
+  border-top: none;
+  border-radius: 0 0 6rpx 6rpx;
+}
+/* 工具 */
+.icon-grid::before {
+  left: 5rpx; top: 5rpx; width: 34rpx; height: 34rpx;
+  border: 4rpx solid currentColor; border-radius: 8rpx;
+}
+.icon-grid::after {
+  left: 15rpx; top: 15rpx; width: 14rpx; height: 14rpx;
+  border-radius: 4rpx; background: currentColor;
+}
+/* 对话 */
+.icon-chat::before {
+  left: 4rpx; top: 5rpx; width: 36rpx; height: 26rpx;
+  border: 4rpx solid currentColor; border-radius: 9rpx;
+}
+.icon-chat::after {
+  left: 13rpx; top: 30rpx; width: 0; height: 0;
+  border-left: 6rpx solid transparent;
+  border-right: 6rpx solid transparent;
+  border-top: 9rpx solid currentColor;
+}
+/* 记录 */
+.icon-clock::before {
+  left: 5rpx; top: 5rpx; width: 34rpx; height: 34rpx;
+  border: 4rpx solid currentColor; border-radius: 50%;
+}
+.icon-clock::after {
+  left: 19rpx; top: 13rpx; width: 4rpx; height: 14rpx;
+  background: currentColor; border-radius: 2rpx;
+  box-shadow: 0 6rpx 0 0 currentColor;
+  transform-origin: bottom; transform: rotate(0deg);
+}
+/* 我的 */
+.icon-user::before {
+  left: 14rpx; top: 4rpx; width: 16rpx; height: 16rpx;
+  border: 4rpx solid currentColor; border-radius: 50%;
+}
+.icon-user::after {
+  left: 7rpx; top: 24rpx; width: 30rpx; height: 14rpx;
+  border: 4rpx solid currentColor; border-bottom: none;
+  border-radius: 14rpx 14rpx 0 0;
+}

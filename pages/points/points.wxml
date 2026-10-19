@@ -1,0 +1,19 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <view wx:if="{{!loading && list.length === 0}}" class="empty">
+    <view class="muted">暂无积分明细</view>
+  </view>
+
+  <view wx:for="{{list}}" wx:key="id" class="card point-item">
+    <view class="point-head">
+      <view class="point-name">{{item.titleText}}</view>
+      <view class="point-delta {{item.positive ? 'plus' : 'minus'}}">{{item.deltaText}}</view>
+    </view>
+    <view class="point-meta">
+      <text class="muted">{{item.typeText}}</text>
+      <text class="muted">{{item.timeText}}</text>
+    </view>
+  </view>
+</view>

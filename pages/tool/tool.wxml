@@ -1,0 +1,54 @@
+<view class="container" wx:if="{{tool}}">
+  <view class="card">
+    <view class="title">{{tool.name}}<text wx:if="{{tool.is_hot}}" class="hot-badge">热</text></view>
+    <view>
+      <text class="tag">{{tool.category_name}}</text>
+      <text class="tag">积分：分析 {{tool.analyze_quota}} · 生成 {{tool.price_quota}}</text>
+    </view>
+    <view class="body mt-24">{{tool.description}}</view>
+    <view wx:if="{{tool.disclaimer}}" class="mt-16 muted" style="border-left:6rpx solid #f0a020;padding-left:16rpx;">
+      ⚠️ {{tool.disclaimer}}
+    </view>
+    <view wx:elif="{{tool.disclaimer_generic}}" class="mt-16 muted" style="border-left:6rpx solid #b8c0cc;padding-left:16rpx;">
+      ⓘ {{tool.disclaimer_generic}}
+    </view>
+    <view wx:if="{{tool.tags.length}}" class="mt-16">
+      <text wx:for="{{tool.tags}}" wx:key="*this" class="muted tag-item">#{{item}}</text>
+    </view>
+    <view wx:if="{{tool.usage_count}}" class="muted mt-8">已有 {{tool.usage_count}} 次使用</view>
+  </view>
+
+  <!-- 使用方式：一律在「对话」页完成，本页不发起任务 -->
+  <view class="card">
+    <view class="title">怎么用</view>
+    <view class="muted">
+      回到「对话」页，直接说出你的需求即可自动使用本工具（助手会识别意图并确认）。
+      <block wx:if="{{tool.needs_attachment}}">本工具需要文件：在「对话」页点「＋ 添加附件」上传后再发送。</block>
+    </view>
+    <view class="btn mt-16" bindtap="goChat">去「对话」页使用</view>
+  </view>
+
+  <view class="foot muted">内容由 AI 生成，仅供参考</view>
+</view>
+
+<!-- 加载中 -->
+<view class="container" wx:elif="{{loadingTool}}">
+  <view class="card">
+    <view class="skeleton sk-title"></view>
+    <view class="skeleton sk-line"></view>
+    <view class="skeleton sk-line short"></view>
+  </view>
+  <view class="card">
+    <view class="skeleton sk-line"></view>
+    <view class="skeleton sk-box"></view>
+  </view>
+</view>
+
+<!-- 加载失败 -->
+<view class="container" wx:else>
+  <view class="empty">
+    <view class="empty-icon"></view>
+    <view class="muted">工具加载失败</view>
+    <view class="btn ghost retry-btn" bindtap="loadTool">重新加载</view>
+  </view>
+</view>

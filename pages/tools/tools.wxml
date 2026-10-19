@@ -1,0 +1,61 @@
+<view class="container">
+  <!-- 搜索 -->
+  <view class="search-box">
+    <view class="search-icon"></view>
+    <input
+      class="search-input"
+      placeholder="搜索工具，如：简历 / 周报"
+      placeholder-class="ph"
+      value="{{q}}"
+      bindinput="onSearchInput"
+      bindconfirm="onSearch"
+      confirm-type="search"
+    />
+  </view>
+
+  <!-- 类目 -->
+  <scroll-view scroll-x class="cats">
+    <view
+      class="cat {{activeCat === item.category ? 'cat-on' : ''}}"
+      wx:for="{{cats}}"
+      wx:key="category"
+      data-cat="{{item.category}}"
+      bindtap="onPickCat"
+    >
+      {{item.name}}
+    </view>
+  </scroll-view>
+
+  <!-- 工具列表 -->
+  <view class="tool-list">
+    <view
+      wx:for="{{tools}}"
+      wx:key="id"
+      class="tool-card tappable"
+      data-id="{{item.id}}"
+      bindtap="openTool"
+    >
+      <view class="tool-emoji c-{{item.category}}">{{item.emoji}}</view>
+      <view class="tool-main">
+        <view class="tool-name">
+          {{item.name}}
+          <text wx:if="{{item.is_hot}}" class="hot-badge">热</text>
+        </view>
+        <view class="tool-desc">{{item.description}}</view>
+        <view class="tool-meta">
+          <text class="cat-pill c-{{item.category}}">{{item.category_name}}</text>
+          <text class="tool-price">{{item.price_quota}} 积分/次</text>
+        </view>
+      </view>
+      <view class="arrow"></view>
+    </view>
+    <view wx:if="{{tools.length === 0}}" class="empty">
+      <view class="empty-icon"></view>
+      <view class="muted">没有找到匹配的工具</view>
+      <view class="muted mt-8">换个关键词，或到首页直接描述需求</view>
+    </view>
+    <view wx:if="{{!q && tools.length}}" class="muted" style="text-align:center;padding:20rpx 0 8rpx;">
+      {{hasMore ? "上拉加载更多" : "已加载全部 " + total + " 个工具"}}
+    </view>
+  </view>
+</view>

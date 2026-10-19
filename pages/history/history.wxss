@@ -1,0 +1,101 @@
+/* 筛选栏 */
+.filters { padding: 24rpx 32rpx; }
+.f-row { display: flex; align-items: center; gap: 16rpx; }
+.f-q { flex: 1; }
+.f-btn {
+  flex-shrink: 0;
+  margin-top: 0;
+  padding: 20rpx 32rpx;
+  border-radius: 16rpx;
+}
+.f-row.dates { margin-top: 20rpx; }
+.pick {
+  min-width: 180rpx;
+  padding: 16rpx 20rpx;
+  background: #f6f5fd;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  text-align: center;
+}
+.pick.ph { color: var(--text-muted); }
+.reset {
+  margin-left: auto;
+  font-size: 26rpx;
+  color: var(--primary-ink);
+  padding: 8rpx 12rpx;
+}
+
+/* 记录条目 */
+.rec { position: relative; }
+.rec:active { background: #f6f3ff; }
+.rec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rec-text {
+  margin-top: 14rpx;
+  font-size: 28rpx;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+.rec-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.quota {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--primary-deep);
+}
+
+/* 可继续的会话（列表不展示内部状态，只给入口） */
+.resume {
+  font-size: 24rpx;
+  color: var(--primary-ink);
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.load-more { text-align: center; padding: 24rpx 0 8rpx; }
+
+/* 归档筛选 */
+.f-row.arch { margin-top: 20rpx; gap: 12rpx; }
+.chip {
+  padding: 8rpx 24rpx;
+  border-radius: 999rpx;
+  background: #f6f5fd;
+  color: var(--text-sub);
+  font-size: 26rpx;
+}
+.chip.on {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+
+/* 记录右下：消耗积分 + 归档 */
+.rec-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+/* 归档按钮：做成明显的按钮样式（未归档=主色描边；已归档=中性） */
+.arch-btn {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  line-height: 1;
+  padding: 12rpx 26rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid var(--primary);
+  color: var(--primary-ink);
+  background: var(--primary-soft);
+}
+.arch-btn.on {
+  border-color: #dcdfe5;
+  color: var(--text-muted);
+  background: #f3f4f6;
+}
+.arch-btn:active { opacity: 0.7; }

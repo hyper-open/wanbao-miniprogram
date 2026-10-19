@@ -1,0 +1,42 @@
+<scroll-view scroll-y class="wrap">
+  <view class="sec">
+    <view class="h">用户协议</view>
+    <view class="p">更新日期：【占位：年-月-日】｜生效日期：【占位：年-月-日】</view>
+    <view class="p">欢迎使用"万宝AI助手"小程序（下称"本服务"）。在使用前请务必阅读并理解本协议，使用本服务即视为同意本协议全部条款。</view>
+    <view class="p">1. 服务说明：本服务提供 AI 辅助文本处理工具（如文案改写、周报生成、简历优化等），按积分消耗您预先购买的积分。AI 生成内容可能存在错误或遗漏，仅供您参考，您应对最终采用的内容自行审核并承担相应责任。</view>
+    <view class="p">2. AI 生成内容：根据相关法规要求，本服务生成的文本与文档均含 AI 生成标识。您不得将生成内容用于违法违规用途；因不当使用产生的一切后果由您自行承担。</view>
+    <view class="p">3. 法律类工具特别提示：合同要点审查等法律相关工具的输出由 AI 自动生成，仅供参考，不构成法律意见或律师服务；您不应将其作为签署合同、处理纠纷等专业决策的唯一依据，因使用该等输出产生的后果由您自行承担。请勿提交涉及国家秘密、商业秘密或他人隐私的内容，必要时先行脱敏处理。</view>
+    <view class="p">4. 付费与退款：积分包为虚拟商品，一经售出，除平台原因导致服务不可用外一般不予退款；执行失败或内容违规时，平台将主动按积分退还至您的账户。</view>
+    <view class="p">5. 用户行为规范：您保证不利用本服务生成、传播违法违规信息，不侵犯他人知识产权与合法权益。违者平台有权封禁账户且不予退还剩余积分。</view>
+    <view class="p">6. 知识产权：您输入的内容归您所有；您对本服务生成的内容享有使用权。平台对服务本身的软件与技术享有知识产权。</view>
+    <view class="p">7. 未成年人保护：未成年人使用本服务应取得监护人同意并在其指导下进行。</view>
+    <view class="p">8. 协议变更与联系方式：本协议更新将通过小程序公告通知。如有疑问或投诉举报，请通过结果页"反馈/举报"入口联系我们（【占位：联系邮箱】）。</view>
+  </view>
+
+  <view class="sec">
+    <view class="h">隐私政策</view>
+    <view class="p">更新日期：【占位：年-月-日】</view>
+    <view class="p">1. 我们收集的信息：① 微信登录标识（openid），用于建立账户；② 您主动提交的文本与附件（如简历文档），仅用于完成您请求的处理任务；③ 使用记录（工具、时间、结果状态），用于历史查询与服务改进。</view>
+    <view class="p">2. 信息用途：仅用于提供本服务，不用于广告推送，不向无关第三方出售。您的附件与文本会传输至已备案的大模型服务商（如【占位：模型服务商清单】）以完成处理。</view>
+    <view class="p">3. 存储与删除：附件与结果存储于加密对象存储；您可随时删除历史记录，附件在任务完成【占位：N】天后自动删除。</view>
+    <view class="p">4. 您的权利：您可查询、更正、删除您的个人信息，可注销账户；请通过"反馈/举报"入口或【占位：联系邮箱】行使上述权利，我们将在 15 个工作日内响应。</view>
+    <view class="p">5. 未成年人：我们不会主动收集未成年人信息；监护人发现未成年人使用本服务的，可联系我们删除相关信息。</view>
+    <view class="p">6. 政策更新：本政策更新将通过小程序公告通知，重大变更将再次征求您的同意。</view>
+  </view>
+
+  <!-- 生成式人工智能服务备案公示（合规要求：显著位置公示模型名称与备案号） -->
+  <view class="sec">
+    <view class="h">所用生成式人工智能服务备案公示</view>
+    <view class="p">本服务通过 API 调用以下已完成备案的生成式人工智能服务，现将模型名称与备案号公示如下：</view>
+    <block wx:if="{{filings.length}}">
+      <view class="filing" wx:for="{{filings}}" wx:key="filing_no">
+        <view class="filing-model">{{item.model}}<text wx:if="{{item.provider}}" class="filing-provider">（{{item.provider}}）</text></view>
+        <view class="filing-no">备案号：{{item.filing_no}}</view>
+        <view wx:if="{{item.subject}}" class="filing-subject">备案主体：{{item.subject}}</view>
+        <view wx:if="{{item.filing_name}}" class="filing-subject">备案模型/算法名称：{{item.filing_name}}</view>
+      </view>
+    </block>
+    <view wx:else class="p">备案信息维护中，如需核验请通过下方反馈渠道联系我们。</view>
+    <view class="p">我们不自研基础模型，仅接入上述已备案模型能力；生成内容均带 AI 标识，仅供参考。</view>
+  </view>
+</scroll-view>

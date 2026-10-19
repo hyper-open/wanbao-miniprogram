@@ -1,0 +1,37 @@
+.wrap {
+  height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+.sec {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow);
+}
+.h { font-size: 36rpx; font-weight: 600; margin-bottom: 24rpx; }
+.p {
+  font-size: 28rpx;
+  color: var(--text-sub);
+  line-height: 1.8;
+  margin-bottom: 16rpx;
+}
+
+/* 备案公示条目 */
+.filing {
+  background: #f8f7fd;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+.filing-model { font-size: 28rpx; font-weight: 600; color: var(--text); }
+.filing-provider { font-size: 24rpx; font-weight: 400; color: var(--text-muted); }
+.filing-no {
+  font-size: 24rpx;
+  color: var(--primary-ink);
+  margin-top: 8rpx;
+  word-break: break-all;
+}
+.filing-subject { font-size: 22rpx; color: var(--text-muted); margin-top: 4rpx; }

@@ -1,0 +1,125 @@
+/* 反馈与建议 */
+
+/* 类型选择 */
+.type-row {
+  display: flex;
+  gap: 16rpx;
+  margin: 24rpx 0 16rpx;
+}
+.chip {
+  padding: 8rpx 24rpx;
+  border-radius: 999rpx;
+  background: #f6f5fd;
+  color: var(--text-sub);
+  font-size: 26rpx;
+}
+.chip.on {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+
+/* 输入区 */
+.fb-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 200rpx;
+  margin-top: 8rpx;
+  padding: 20rpx;
+  border-radius: var(--radius);
+  background: #fafafc;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+.fb-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+.fb-submit {
+  flex-shrink: 0;
+  padding: 16rpx 48rpx;
+  border-radius: 999rpx;
+  background: var(--grad);
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 500;
+  box-shadow: 0 6rpx 16rpx rgba(99, 102, 241, 0.24);
+}
+.fb-submit:active { opacity: 0.85; }
+.fb-submit.disabled { opacity: 0.5; box-shadow: none; }
+.fb-tip { margin-top: 12rpx; }
+
+/* 记录列表 */
+.sec-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin: 32rpx 0 16rpx;
+}
+.rec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rec-text {
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--text);
+  word-break: break-all;
+}
+.rec-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+.status {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+.status::before {
+  content: "";
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #d1d5db;
+  margin-right: 8rpx;
+}
+.status.success { color: var(--success); }
+.status.success::before { background: var(--success); }
+.status.pending { color: #f59e0b; }
+.status.pending::before { background: #f59e0b; }
+
+.load-more { text-align: center; padding: 24rpx 0 8rpx; }
+
+/* 官方回复块 */
+.reply {
+  margin-top: 16rpx;
+  padding: 16rpx 20rpx;
+  border-radius: var(--radius);
+  background: var(--primary-soft);
+}
+.reply-head {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--primary-ink);
+  margin-bottom: 6rpx;
+}
+.reply-text {
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: var(--text);
+  word-break: break-all;
+}
+
+/* 关联产出：可点击跳转到该次产出的结果页 */
+.inv-link {
+  font-size: 24rpx;
+  color: var(--primary-ink);
+  text-decoration: underline;
+}
+.inv-link:active { opacity: 0.6; }

@@ -1,0 +1,25 @@
+.point-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.point-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+.point-delta {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+.point-delta.plus { color: var(--success); }
+.point-delta.minus { color: var(--text-main, #111827); }
+.point-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "对话",
+  "usingComponents": {
+    "login-panel": "/components/login-panel/login-panel",
+    "md": "/components/md/md"
+  }
+}

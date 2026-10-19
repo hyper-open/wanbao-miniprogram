@@ -1,0 +1,260 @@
+/* 文件选择结果 */
+.file-chip {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: var(--primary-soft);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+}
+.file-ico { font-size: 30rpx; }
+.file-name { flex: 1; font-size: 26rpx; color: var(--text); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.file-redo { font-size: 24rpx; color: var(--primary-ink); }
+
+/* 分析卡分组 */
+.sec {
+  margin: 28rpx 0 12rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text);
+}
+.item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+.item:last-child { border-bottom: none; }
+.item-head { display: flex; align-items: center; gap: 12rpx; }
+.item-label { font-size: 28rpx; font-weight: 500; }
+
+/* 对话气泡 */
+.msg { display: flex; margin: 20rpx 0; }
+.msg.me { justify-content: flex-end; }
+.msg.ai { justify-content: flex-start; }
+.bubble {
+  max-width: 78%;
+  padding: 20rpx 24rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  word-break: break-word;
+}
+.msg.ai .bubble { background: var(--card); color: var(--text); box-shadow: var(--shadow); }
+.msg.me .bubble { background: var(--primary-soft); color: var(--primary-ink); }
+
+.thinking { text-align: center; padding: 24rpx 0; }
+
+/* 底部操作栏 */
+.action-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  /* 「对话」是 tabBar 页：自定义 tabBar 固定在最底部（高 102rpx + 安全区），
+     操作栏必须抬到它上面，否则「确认生成 / 继续输入」会被 tabBar 盖住点不到 */
+  bottom: calc(102rpx + env(safe-area-inset-bottom));
+  z-index: 900;
+  background: var(--card);
+  border-top: 1rpx solid var(--line);
+  box-shadow: 0 -4rpx 16rpx rgba(17, 24, 39, 0.04);
+  padding: 16rpx 24rpx;
+}
+.bar-row { display: flex; align-items: center; gap: 16rpx; }
+.bar-input { flex: 1; }
+.bar-btn { flex-shrink: 0; margin-top: 0; padding: 20rpx 32rpx; }
+.bar-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+}
+.link { color: var(--primary-ink); }
+
+/* 新会话悬浮按钮：固定右上角，会话进行中随时可点 */
+.new-session-fab {
+  position: fixed;
+  top: 104rpx;
+  right: 24rpx;
+  z-index: 950;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  border: 1rpx solid var(--line);
+  box-shadow: 0 4rpx 16rpx rgba(17, 24, 39, 0.12);
+  font-size: 26rpx;
+  color: var(--primary-ink);
+  font-weight: 500;
+}
+.new-session-fab:active { background: var(--primary-soft, #ede9fe); }
+
+/* 优化前后对比 */
+.diff-summary { margin-bottom: 16rpx; }
+.change {
+  padding: 20rpx 0;
+  border-top: 1rpx solid var(--line);
+}
+.change-sec {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--primary-ink);
+  margin-bottom: 12rpx;
+}
+.pair { display: flex; flex-direction: column; gap: 12rpx; }
+.side {
+  border-radius: 12rpx;
+  padding: 16rpx 18rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  word-break: break-word;
+}
+.side.before { background: #f4f4f6; color: var(--text-sub); }
+.side.after { background: #f0fdf4; color: #065f46; }
+.side-tag {
+  font-size: 20rpx;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-bottom: 6rpx;
+}
+.change-reason {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--primary-ink);
+}
+
+/* 子任务分隔头（多工具会话：① 简历优化 / ② 翻译） */
+.turn-head {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin: 8rpx 0 4rpx;
+  padding: 0 4rpx;
+}
+.turn-no {
+  font-size: 26rpx;
+  color: var(--primary-deep);
+  font-weight: 700;
+}
+.turn-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-main, #1f2937);
+}
+.turn-done {
+  font-size: 20rpx;
+  color: var(--primary-ink);
+  background: var(--primary-soft);
+  border-radius: 999rpx;
+  padding: 2rpx 14rpx;
+}
+
+/* 产出正文卡片（结果直接沉在会话里） */
+.result-card { border-left: 6rpx solid var(--primary, #6366f1); }
+.result-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 28rpx;
+  line-height: 1.75;
+  color: var(--text-main, #1f2937);
+  margin-top: 8rpx;
+}
+
+/* 识别候选工具列表（自由输入模式） */
+.menu-item {
+  padding: 18rpx 20rpx;
+  border: 1rpx solid #ece9fb;
+  border-radius: 14rpx;
+  margin-top: 14rpx;
+  background: #fbfaff;
+}
+.menu-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--primary-deep, #4f46e5);
+  margin-bottom: 4rpx;
+}
+
+/* 「对话」页：底部 = 固定操作栏(约156rpx) + 自定义 tabBar(102rpx) + 安全区，
+   正文留够净空，避免最后一条消息/结果卡被压住 */
+.container { padding-bottom: 300rpx; padding-top: 92rpx; }
+
+/* AI 生成内容提示条：固定顶部全程展示（深度合成类目审核必查项） */
+.ai-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 940;
+  padding: 14rpx 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #b91c1c;
+  background: #fef2f2;
+  border-bottom: 1rpx solid #fecaca;
+}
+
+/* AI 回复角标：每条 AI 气泡底部附加 */
+.bubble-wrap { max-width: 78%; }
+.bubble-wrap .bubble { max-width: 100%; }
+.ai-mark {
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  color: var(--text-muted);
+}
+.ai-foot {
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* 空闲态操作栏：附件入口 + 已选附件条 */
+.bar-plus {
+  flex-shrink: 0;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--line, #e5e7eb);
+  background: #fff;
+  color: var(--primary-deep, #4f46e5);
+  font-size: 40rpx;
+  line-height: 68rpx;
+  text-align: center;
+}
+.bar-plus:active { background: var(--primary-soft, #ede9fe); }
+.bar-attach {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 12rpx;
+  padding: 12rpx 16rpx;
+  background: var(--primary-soft, #ede9fe);
+  border-radius: 12rpx;
+}
+.bar-attach .file-name {
+  flex: 1;
+  font-size: 24rpx;
+  color: var(--primary-ink, #6d28d9);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 确认扣费卡（就地确认，不切换窗口） */
+.confirm-card { border-left: 6rpx solid var(--primary, #6366f1); }
+.confirm-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+.confirm-actions .btn { flex: 1; margin-top: 0; }
+
+/* 失败提示文字 */
+.danger-text { color: #b91c1c; }
+
+/* 流式输出气泡：光标闪烁 */
+.bubble.streaming::after {
+  content: "▍";
+  color: var(--primary-ink, #6d28d9);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }

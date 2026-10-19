@@ -1,0 +1,85 @@
+<view class="container">
+  <!-- 登录卡片（未登录时出现；页面内，不用浮层） -->
+  <login-panel class="lp-host" show="{{showLogin}}" bind:done="onLoginDone" bind:close="onLoginClose" />
+
+  <view class="hero">
+    <view class="hero-title">邀请有奖</view>
+    <view wx:if="{{me && me.enabled === false}}" class="hero-sub">活动暂未开启，开启后你的邀请码依然可用</view>
+    <view wx:else class="hero-sub">
+      好友用你的邀请码注册成功，{{me.reward_quota || 1}} 积分立即到账；好友{{me.first_recharge_days ? "在 " + me.first_recharge_days + " 天内首充" : "首次充值"}}，再按其充值次数的 {{me.recharge_percent || 10}}% 加送
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="muted">我的邀请码</view>
+    <view class="code-row">
+      <view class="code">{{me.invite_code || "—"}}</view>
+      <view class="btn ghost copy" bindtap="copyCode">复制</view>
+    </view>
+    <view class="btn-row">
+      <button class="btn share" open-type="share">分享给好友</button>
+      <button class="btn ghost" bindtap="savePoster">保存海报</button>
+    </view>
+    <view class="link-line"><text class="lnk" bindtap="copyLink">复制小程序链接（浏览器/短信用）</text></view>
+    <view wx:if="{{me && me.enabled === false}}" class="muted rule">
+      邀请有奖活动暂未开启，暂不发放邀请奖励；开启后好友用你的邀请码注册仍会正常累计。
+    </view>
+    <view wx:else class="muted rule">
+      规则：<br />
+      ① 好友用你的邀请码注册成功 → 你立即得 {{me.reward_quota || 1}} 积分（马上到账，在「我的」页可见；今日 {{me.invite_got_today || 0}}/{{me.invite_daily_cap || 0}}，本月 {{me.invite_got_month || 0}}/{{me.invite_monthly_cap || 0}}）；<br />
+      ② 好友{{me.first_recharge_days ? "在绑定后 " + me.first_recharge_days + " 天内首充成功" : "首次充值成功"}} → 再加送「充值次数 × {{me.recharge_percent || 10}}%」次（向下取整；今日 {{me.recharge_got_today || 0}}/{{me.recharge_daily_cap || 0}}，本月 {{me.recharge_got_month || 0}}/{{me.recharge_monthly_cap || 0}}）；<br />
+      好友是否首充不影响①的奖励；②逾期未首充仅不加送。奖励 {{me.valid_days || 30}} 天有效，过期作废。
+    </view>
+  </view>
+
+  <view class="card stats">
+    <view class="stat">
+      <view class="num">{{me.invited_total || 0}}</view>
+      <view class="muted">已邀请</view>
+    </view>
+    <view class="stat">
+      <view class="num">{{me.rewarded_total || 0}}</view>
+      <view class="muted">有效邀请</view>
+    </view>
+    <view class="stat">
+      <view class="num">{{me.quota_got_total || 0}}</view>
+      <view class="muted">累计获得积分</view>
+    </view>
+  </view>
+  <view wx:if="{{me && me.enabled !== false}}" class="muted" style="font-size:22rpx;text-align:center;margin-top:-8rpx;">
+    注册奖励立即到账；好友首充后加送，统计可能有几分钟延迟
+  </view>
+
+  <view class="card">
+    <view class="title">有好友邀请码？</view>
+    <view class="muted">输入好友分享给你的邀请码完成绑定，绑定后充值加奖会计入好友邀请。</view>
+    <view class="code-row">
+      <input class="bind-input" placeholder="输入好友邀请码" value="{{bindCode}}" bindinput="onBindInput" />
+      <view class="btn" bindtap="submitBind">绑定</view>
+    </view>
+  </view>
+
+  <view class="sec-title">邀请记录</view>
+
+  <view wx:if="{{inited && items.length === 0}}" class="empty">
+    <view class="empty-icon"></view>
+    <view class="muted">还没有邀请记录</view>
+  </view>
+
+  <view wx:for="{{items}}" wx:key="id" class="card rec">
+    <view class="rec-head">
+      <text class="rec-name">{{item.nickname}}</text>
+      <text class="rec-status {{item.status}}">{{item.statusText}}</text>
+    </view>
+    <view class="rec-foot">
+      <text class="muted">{{item.timeText}}</text>
+      <text wx:if="{{item.reward_quota}}" class="got">+{{item.reward_quota}} 积分</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="muted load-more">加载中…</view>
+  <view wx:elif="{{inited && items.length && !hasMore}}" class="muted load-more">没有更多了 · 共 {{total}} 条</view>
+
+  <!-- 离屏画布：合成营销分享卡片与邀请海报 -->
+  <canvas type="2d" id="posterCanvas" class="poster-canvas"></canvas>
+</view>

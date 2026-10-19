@@ -1,0 +1,223 @@
+/* 个人资料卡 */
+.profile-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow);
+}
+.profile-card.tappable:active { background: #f6f3ff; }
+/* 头像按钮（open-type=chooseAvatar）：清掉 button 默认样式并保证正圆 */
+.avatar-btn {
+  width: 96rpx;
+  height: 96rpx;
+  min-width: 96rpx;
+  min-height: 96rpx;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--primary-soft);
+  flex: 0 0 96rpx;
+  line-height: 0;
+  display: block;
+}
+.avatar-btn::after {
+  display: none;
+  border: none;
+}
+.avatar-btn .avatar-img,
+.avatar-btn .avatar-ph {
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+}
+.avatar-img { width: 100%; height: 100%; }
+.avatar-ph { position: relative; width: 100%; height: 100%; }
+.avatar-ph::before {
+  content: "";
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 36rpx;
+  height: 36rpx;
+  border: 5rpx solid var(--primary);
+  border-radius: 50%;
+}
+.avatar-ph::after {
+  content: "";
+  position: absolute;
+  left: 20rpx;
+  top: 62rpx;
+  width: 56rpx;
+  height: 26rpx;
+  border: 5rpx solid var(--primary);
+  border-bottom: none;
+  border-radius: 26rpx 26rpx 0 0;
+}
+.profile-info { flex: 1; margin-left: 24rpx; min-width: 0; }
+.nick-input {
+  font-size: 34rpx;
+  font-weight: 600;
+  height: 48rpx;
+  line-height: 48rpx;
+}
+.nick-ph { color: var(--text-muted); font-weight: 400; font-size: 30rpx; }
+.profile-tip { font-size: 24rpx; color: var(--text-muted); margin-top: 8rpx; }
+.arrow {
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 4rpx solid #d1d5db;
+  border-right: 4rpx solid #d1d5db;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* 可用积分卡：渐变 + 光斑（类名沿用 balance-*，仅作样式名） */
+.balance-card {
+  background: var(--grad);
+  border-radius: 32rpx;
+  padding: 48rpx 36rpx;
+  margin-bottom: 24rpx;
+  color: #fff;
+  box-shadow: 0 10rpx 28rpx rgba(124, 58, 237, 0.28);
+}
+.balance-label { font-size: 24rpx; opacity: 0.85; }
+.balance-num { font-size: 80rpx; font-weight: 700; line-height: 1.2; margin: 8rpx 0; }
+.balance-sub { font-size: 24rpx; opacity: 0.8; }
+
+.warn-title { color: var(--danger); }
+.ok-tip { margin-top: 16rpx; }
+
+/* 积分包 */
+.pkg {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+.pkg:last-child { border-bottom: none; }
+.pkg-name { font-size: 32rpx; font-weight: 600; }
+.pkg-badge {
+  display: inline-block;
+  margin-left: 12rpx;
+  background: linear-gradient(135deg, #f43f5e, #fb7185);
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  vertical-align: middle;
+}
+.pkg-desc {
+  display: flex;
+  align-items: baseline;
+  margin-top: 10rpx;
+}
+.pkg-price {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--primary-ink);
+}
+.pkg-origin {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  margin-left: 12rpx;
+}
+.pkg-quota { font-size: 24rpx; color: var(--text-muted); margin-left: 16rpx; }
+.pkg-campaign { font-size: 22rpx; color: #e11d48; margin-top: 8rpx; }
+/* 测试支付标识（PAYMENT_MOCK=true 时展示） */
+.mock-badge {
+  display: inline-block;
+  margin-left: 12rpx;
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  vertical-align: middle;
+}
+.pkg-btn {
+  background: var(--grad);
+  color: #fff;
+  font-size: 26rpx;
+  padding: 16rpx 40rpx;
+  border-radius: 999rpx;
+  flex-shrink: 0;
+  box-shadow: 0 6rpx 16rpx rgba(99, 102, 241, 0.24);
+}
+.pkg-btn:active { opacity: 0.85; }
+
+.foot { text-align: center; padding: 32rpx 0; }
+
+/* 功能入口行 */
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: var(--shadow);
+}
+.link-row:active { background: #f6f3ff; }
+.link-text { font-size: 30rpx; font-weight: 500; }
+
+/* 手机号绑定 */
+.phone-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.phone-label { font-size: 30rpx; font-weight: 500; }
+.phone-num {
+  font-size: 30rpx;
+  color: var(--text-muted);
+  letter-spacing: 1rpx;
+}
+.phone-btn {
+  margin: 0;
+  padding: 0 36rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #fff;
+  background: var(--grad);
+  border-radius: 999rpx;
+  box-shadow: 0 6rpx 16rpx rgba(99, 102, 241, 0.24);
+}
+.phone-btn::after { border: none; }
+.phone-btn:active { opacity: 0.85; }
+
+/* 今日免费额度 + 签到 */
+.free-card { padding: 28rpx 32rpx; }
+.free-row { display: flex; align-items: center; justify-content: space-between; }
+.free-info { flex: 1; min-width: 0; }
+.free-title { font-size: 32rpx; font-weight: 600; margin-bottom: 6rpx; }
+.checkin-btn {
+  flex-shrink: 0;
+  margin-left: 20rpx;
+  padding: 16rpx 32rpx;
+  border-radius: 999rpx;
+  background: var(--grad);
+  color: #fff;
+  font-size: 26rpx;
+  font-weight: 500;
+  box-shadow: 0 6rpx 16rpx rgba(99, 102, 241, 0.24);
+}
+.checkin-btn:active { opacity: 0.85; }
+.checkin-btn.done {
+  background: #e5e7eb;
+  color: var(--text-muted);
+  box-shadow: none;
+}
+.checkin-tip { margin-top: 14rpx; }
